@@ -4,6 +4,7 @@ import { Product } from '../models/product';
 import { Currency } from '../models/currency-enum';
 import { CreateOrderPayload } from '../models/requests/create-order-payload';
 import { CreateOrderResponse } from '../models/response/create-order-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,7 @@ export class OrderService {
     private selectedCurrency: string = Currency.AUD;
 
     constructor(private http: HttpClient) {
-        this.apiUrl = `http://localhost:53413/order`;
+        this.apiUrl = `${environment.apiHost}/order`;
     }
 
     calculateCost() {

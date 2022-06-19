@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,7 @@ export class ProductService {
     private readonly apiUrl: string;
 
     constructor(private http: HttpClient) {
-        this.apiUrl = `http://localhost:53413/product`;
+        this.apiUrl = `${environment.apiHost}/product`;
     }
     
     loadProducts(currency: string) {
