@@ -1,0 +1,53 @@
+<div class="w-100">
+    <table class="table table-striped">
+        <thead>
+            <th> Product </th>
+            <th> Price </th>
+            <th> Quantity </th>
+            <th> </th>
+        </thead>
+        <tbody>
+            <tr class="w-100" *ngFor="let p of cartItems">
+                <td> {{ p.name }} </td>
+                <td> {{ p.currency }} {{ p.unitPrice }} </td>
+                <td> 
+                    <button type="button" class="btn btn-outline-success btn-sm w-100px" (click)="onRemove(p)">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+        An error occured while placing your order. Sorry for inconvenience, contact support if problem persists
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <div>
+            <button class="btn btn-outline-success" (click)="onShopMore()">
+                Shop more
+            </button>
+        </div>
+        <div>
+            <button class="btn btn-success" 
+                    (click)="onCheckout()"
+                    [disabled]="isEmptyCart()">
+                Checkout
+                <span class="badge red-badge">{{ orderService.getSelectedCurrency() }} {{ cartTotalPrice() }}</span>
+            </button>
+        </div>
+        <div class="w-25">
+            <app-currencies
+            (currencyChanged) = "onCurrencyChange($event)"> </app-currencies>
+        </div>
+    </div>
+
+    <div class="mt-4" *ngIf="orderResponse">
+        <h1>
+            Thank you for shopping. Here is your order details:
+            Order Id: {{ orderResponse.orderId }} <br />
+            Order Ref #:  {{ orderResponse.orderRefNumber }}
+        </h1>
+    </div>
+</div>
