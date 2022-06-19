@@ -43,13 +43,11 @@
         </div>
     </div>
 
-    <ng-template *ngIf="orderResponse">
-        <div class="mt-4">
-            <h1>
-                Thank you for shopping. Here is your order details:
-                Order Id: {{ orderResponse.orderId }} <br />
-                Order Ref #:  {{ orderResponse.orderRefNumber }}
-            </h1>
-        </div>
-    </ng-template>
+    <div class="mt-4" *ngIf="orderResponse">
+        <h1>
+            Thank you for shopping. Here is your order details:
+            Order Id: {{ orderResponse.orderId }} <br />
+            Order Ref #:  {{ orderResponse.orderRefNumber }}
+        </h1>
+    </div>
 </div>
