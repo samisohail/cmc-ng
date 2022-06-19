@@ -51,7 +51,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.orderService.getCart().reduce((sum, current) => sum + current.unitPrice, 0);
 
   onCurrencyChange(currency: string) {
-    this.productService.loadProductsByCurrency(currency).pipe(
+    this.productService.loadProducts(currency).pipe(
       takeWhile(() => this.componentActive)
     ).subscribe(products => {
       this.orderService.setCurrency(currency);

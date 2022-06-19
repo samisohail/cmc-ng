@@ -13,11 +13,8 @@ export class ProductService {
         this.apiUrl = `http://localhost:53413/product`;
     }
     
-    loadProducts() {
-        return this.http.get<Product[]>(`${this.apiUrl}/products`);
-    }
-
-    loadProductsByCurrency(currency: string) {
+    loadProducts(currency: string) {
         return this.http.get<Product[]>(`${this.apiUrl}/products/${currency}`);
     }
+    
 }

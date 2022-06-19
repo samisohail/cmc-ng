@@ -31,7 +31,7 @@ export class CurrenciesComponent implements OnInit, OnDestroy {
   }
 
   onCurrencyChange(currency: string) {
-    this.productService.loadProductsByCurrency(currency).pipe(
+    this.productService.loadProducts(currency).pipe(
       takeWhile(() => this.componentActive)
     ).subscribe(products => {
       this.orderService.setCurrency(currency);
