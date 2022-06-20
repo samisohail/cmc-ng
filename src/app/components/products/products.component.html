@@ -1,40 +1,36 @@
-<div class="w-100 mt-4">
-    <table class="table table-striped">
+<div class="container  w-100 mt-4">
+    <h2>Products</h2>
+    <div class="d-flex flex-column align-items-center w-100">
+    <table class="table table-striped mt-4 w-50">
         <thead>
             <th> Product </th>
             <th> Price </th>
-            <th> </th>
+            <th class="text-center"> Action </th>
         </thead>
         <tbody>
-            <tr class="w-100" *ngFor="let p of products">
+            <tr class="w-100" *ngFor="let p of productService.products$ | async">
                 <td> {{ p.name }} </td>
-                <td> {{ p.currency }} {{ p.unitPrice }} </td>
-                <td *ngIf="isInCart(p)"> 
-                    <button type="button" class="btn btn-outline-danger btn-sm w-100px" (click)="onRemove(p)">
+                <td> {{ p.currency }} {{ p.unitPrice | number: '1.2-2'}} </td>
+                <td class="text-center" *ngIf="isInCart(p)"> 
+                    <button type="button" class="btn btn-outline-danger btn-sm w-120px" (click)="onRemove(p)">
                         Remove
                     </button>
                 </td>
-                <td *ngIf="!isInCart(p)"> 
-                    <button type="button" class="btn btn-outline-success btn-sm w-100px" (click)="onAdd(p)">
-                        Add to cart
+                <td class="text-center" *ngIf="!isInCart(p)"> 
+                    <button type="button" class="btn btn-outline-success btn-sm w-120px" (click)="onAdd(p)">
+                        Add to basket
                     </button>
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <div class="d-flex justify-content-between mt-4" >
-        <div class="w-75">
+    <div class="d-flex justify-content-between mt-4" >        
         <button class="btn btn-success" (click)="onCheckout()">
-            Shopping Cart &nbsp;
-            <span class="badge white-badge">{{ itemsInCart() }}</span> &nbsp;&nbsp;
-            <span class="badge red-badge"> {{ orderService.getSelectedCurrency() }} {{ cartTotalPrice() }}</span>
-        </button>
-        </div>
+            Go to basket &nbsp;
+            <span class="badge white-badge">{{ itemsInCart() }}</span>
+        </button>        
+    </div>
 
-        <div class="w-25">
-            <app-currencies
-            (currencyChanged) = "productsByCurrency($event)"> </app-currencies>
-        </div>
     </div>
 </div>

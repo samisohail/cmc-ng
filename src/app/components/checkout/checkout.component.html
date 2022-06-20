@@ -1,53 +1,67 @@
-<div class="w-100">
-    <table class="table table-striped">
-        <thead>
-            <th> Product </th>
-            <th> Price </th>
-            <th> Quantity </th>
-            <th> </th>
-        </thead>
-        <tbody>
-            <tr class="w-100" *ngFor="let p of cartItems">
-                <td> {{ p.name }} </td>
-                <td> {{ p.currency }} {{ p.unitPrice }} </td>
-                <td> 
-                    <button type="button" class="btn btn-outline-success btn-sm w-100px" (click)="onRemove(p)">
-                        Remove
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container w-100 mt-4">
+    <div class="d-flex justify-content-between">
+        <div> <h2> Checkout </h2>  </div>
+        <div>
+            <button class="btn btn-outline-success" (click)="onShopMore()"> Continue shopping </button>
+        </div>
+    </div>
+    
+
+    <div class="d-flex flex-column align-items-center w-100">
+        <table class="table table-striped w-50">
+            <thead>
+                <th> Product </th>
+                <th> Price </th>
+                <th class="text-center"> Action </th>
+            </thead>
+            <tbody>
+                <tr class="w-100" *ngFor="let p of orderService.getCart()">
+                    <td> {{ p.name }} </td>
+                    <td> {{ p.currency }} {{ p.unitPrice | number: '1.2-2' }} </td>
+                    <td class="text-center"> 
+                        <button type="button" class="btn btn-outline-danger btn-sm w-100px" (click)="onRemove(p)">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>        
+
+        <div class="d-flex justify-content-between w-50 mt-4">
+            <div>
+                <button class="btn btn-success" 
+                        (click)="onPlaceOrder()"
+                        [disabled]="isEmptyCart()">
+                        Place Order
+                        <span class="badge red-badge">{{ orderService.getSelectedCurrency() }} {{ orderTotalCost() | number: '1.2-2' }}</span>
+                </button>
+            </div>
+            <div class="w-25">
+                <app-currencies>
+                </app-currencies>
+            </div>
+        </div>
+    
+        <hr />
+        <div class="w-50" *ngIf="orderCost">
+            <ng-container *ngTemplateOutlet="orderTotal"> </ng-container>
+        </div>
+
+    </div>
 
     <div *ngIf="error" class="alert alert-danger" role="alert">
         An error occured while placing your order. Sorry for inconvenience, contact support if problem persists
     </div>
 
-    <div class="d-flex justify-content-between mt-4">
-        <div>
-            <button class="btn btn-outline-success" (click)="onShopMore()">
-                Shop more
-            </button>
-        </div>
-        <div>
-            <button class="btn btn-success" 
-                    (click)="onCheckout()"
-                    [disabled]="isEmptyCart()">
-                Checkout
-                <span class="badge red-badge">{{ orderService.getSelectedCurrency() }} {{ cartTotalPrice() }}</span>
-            </button>
-        </div>
-        <div class="w-25">
-            <app-currencies
-            (currencyChanged) = "onCurrencyChange($event)"> </app-currencies>
-        </div>
-    </div>
-
-    <div class="mt-4" *ngIf="orderResponse">
-        <h1>
-            Thank you for shopping. Here is your order details:
-            Order Id: {{ orderResponse.orderId }} <br />
-            Order Ref #:  {{ orderResponse.orderRefNumber }}
-        </h1>
-    </div>
 </div>
+
+<ng-template #orderTotal>
+    <table class="table cost-table w-100 mt-2">
+        <thead> <th colspan="3"> Order cost details </th> </thead>
+        <tbody>  
+            <tr> <td class="w-120px bold">Products total </td> <td class="text-right"> {{ orderCost.currency }} {{ orderCost.productsTotal | number: '1.2-2' }} </td> </tr>
+            <tr> <td class="bold">Shipping cost </td> <td class="text-right"> {{ orderCost.currency }} {{ orderCost.shipping | number: '1.2-2' }} </td> </tr>
+            <tr> <td class="bold"> Total </td> <td class="text-right"> {{ orderCost.currency }} {{ orderTotalCost() | number: '1.2-2' }} </td> </tr>
+        </tbody>
+    </table>
+</ng-template>

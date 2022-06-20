@@ -10,13 +10,15 @@ import { ProductService } from './services/product-service';
 import { OrderService } from './services/order-service';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { CurrenciesComponent } from './components/currencies/currencies.component';
+import { ThankYouComponent } from './components/thank-you/thank-you.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductsComponent,
     CheckoutComponent,
-    CurrenciesComponent
+    CurrenciesComponent,
+    ThankYouComponent
   ],
   imports: [
     BrowserModule,

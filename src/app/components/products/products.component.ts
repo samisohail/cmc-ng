@@ -14,17 +14,16 @@ import { OrderService } from 'src/app/services/order-service';
 
 export class ProductsComponent implements OnInit, OnDestroy {
 
-  private componentActive = true;
-
-  products: Product[] = [];
+  private componentActive = true;  
 
   constructor(
     private router: Router,
-    private productService: ProductService,
+    public productService: ProductService,
     public orderService: OrderService) { }
 
   ngOnInit() {
-    this.productsByCurrency(this.orderService.getSelectedCurrency());
+    const currency = this.orderService.getSelectedCurrency();
+    this.productService.loadProducts(currency);
   }
 
   onAdd(product: Product) {
@@ -39,20 +38,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   isInCart = (product: Product) =>
     this.orderService.getCart().findIndex(cart => cart.productId === product.productId) > -1;
   
-  itemsInCart = () => this.orderService.getCart().length;
-  
-  cartTotalPrice = () =>
-    this.orderService.getCart().reduce((sum, current) => sum + current.unitPrice, 0);
-  
-  productsByCurrency(currency: string) {
-    this.productService.loadProducts(currency).pipe(
-      takeWhile(() => this.componentActive)
-    ).subscribe(products => {
-      this.orderService.setCurrency(currency);
-      this.orderService.updateCartItemsCurrency(products);
-      this.products = products;
-    });
-  }
+  itemsInCart = () => this.orderService.getCart().length; 
 
   ngOnDestroy = () => this.componentActive = false;  
 
